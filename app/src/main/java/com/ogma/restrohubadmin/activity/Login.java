@@ -3,11 +3,11 @@ package com.ogma.restrohubadmin.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -104,7 +104,7 @@ public class Login extends AppCompatActivity {
         private String error_msg = "Server error!";
         private ProgressDialog mDialog = new ProgressDialog(Login.this);
         private JSONObject response;
-        private String __uRestaurantId = "", __uId = "", __uUsername = "", __uFirstName = "", __uLastName = "", __uEmail = "", __uPassword = "";
+        private String __uRestaurantId = "", __uId = "", __uUsername = "", __uPassword = "";
 
         @Override
         protected Boolean doInBackground(String... params) {
@@ -112,9 +112,8 @@ public class Login extends AppCompatActivity {
                 JSONObject mJsonObject = new JSONObject();
                 mJsonObject.put("username", params[0]);
                 mJsonObject.put("password", params[1]);
-                mJsonObject.put("user_type", "RO");
-                mJsonObject.put("device_token", "");
-                mJsonObject.put("device_type", "android");
+                mJsonObject.put("user_type", "KM");
+                mJsonObject.put("device_id", "token2");
 
                 __uPassword = params[1];
 
@@ -126,9 +125,7 @@ public class Login extends AppCompatActivity {
                     __uRestaurantId = response.getString("restaurant_id");
                     __uId = response.getString("id");
                     __uUsername = response.getString("username");
-                    __uFirstName = response.getString("first_name");
-                    __uLastName = response.getString("last_name");
-                    __uEmail = response.getString("email");
+
                 }
                 return status;
             } catch (JSONException | NullPointerException e) {
@@ -143,9 +140,9 @@ public class Login extends AppCompatActivity {
             mDialog.dismiss();
             if (status) {
                 if (cbRememberMe.isChecked()) {
-                    app.getAppSettings().setSession(__uRestaurantId, __uId, __uUsername, __uFirstName, __uLastName, __uEmail, __uPassword, true);
+                    app.getAppSettings().setSession(__uRestaurantId, __uId, __uUsername, __uPassword, true);
                 } else {
-                    app.getAppSettings().setSession(__uRestaurantId, __uId, __uUsername, __uFirstName, __uLastName, __uEmail, "", true);
+                    app.getAppSettings().setSession(__uRestaurantId, __uId, __uUsername, "", true);
                 }
                 startActivity(new Intent(Login.this, Home.class)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));

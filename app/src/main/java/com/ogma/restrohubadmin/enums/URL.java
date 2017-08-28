@@ -1,18 +1,12 @@
 package com.ogma.restrohubadmin.enums;
 
-import android.util.Log;
-
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
-
 /**
  * Created by alokdas on 11/08/15.
  */
 public enum URL {
 
-    LOGIN("login"),
+    /*LOGIN("login"),*/
+    LOGIN("login_restaurant_user"),
     ORDER_LIST("order_list"),
     CHANGE_ORDER_ITEM_STATUS("change_order_item_status"),
     CREATE_CATEGORY("create_restaurant_category"),

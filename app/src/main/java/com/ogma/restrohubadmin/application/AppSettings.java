@@ -7,7 +7,7 @@ import android.content.SharedPreferences.Editor;
 public class AppSettings {
 
     public String __mGCMId = "";
-    public String __uRestaurantId = "", __uId = "", __uUsername = "", __uFirstName = "", __uLastName = "", __uEmail = "", __uPassword = "";
+    public String __uRestaurantId = "", __uId = "", __uUsername = "", __uPassword = "";
     public boolean __isLoggedIn = false;
     private SharedPreferences sharedPreferences = null;
 
@@ -20,21 +20,15 @@ public class AppSettings {
         __uRestaurantId = sharedPreferences.getString(Constant.APP_SETTINGS_KEY.APP_USER_RESTAURANT_ID.name(), __uRestaurantId);
         __uId = sharedPreferences.getString(Constant.APP_SETTINGS_KEY.APP_USER_ID.name(), __uId);
         __uUsername = sharedPreferences.getString(Constant.APP_SETTINGS_KEY.APP_USER_USERNAME.name(), __uUsername);
-        __uFirstName = sharedPreferences.getString(Constant.APP_SETTINGS_KEY.APP_USER_FIRST_NAME.name(), __uFirstName);
-        __uLastName = sharedPreferences.getString(Constant.APP_SETTINGS_KEY.APP_USER_LAST_NAME.name(), __uLastName);
-        __uEmail = sharedPreferences.getString(Constant.APP_SETTINGS_KEY.APP_USER_EMAIL.name(), __uEmail);
         __uPassword = sharedPreferences.getString(Constant.APP_SETTINGS_KEY.APP_USER_PASSWORD.name(), __uPassword);
 
         __isLoggedIn = sharedPreferences.getBoolean(Constant.APP_SETTINGS_KEY.APP_USER_IS_LOGGED_IN.name(), __isLoggedIn);
     }
 
-    public void setSession(String __uRestaurantId, String __uId, String __uUsername, String __uFirstName, String __uLastName, String __uEmail, String __uPassword, boolean __isLoggedIn) {
+    public void setSession(String __uRestaurantId, String __uId, String __uUsername, String __uPassword, boolean __isLoggedIn) {
         this.__uRestaurantId = __uRestaurantId;
         this.__uId = __uId;
         this.__uUsername = __uUsername;
-        this.__uFirstName = __uFirstName;
-        this.__uLastName = __uLastName;
-        this.__uEmail = __uEmail;
         this.__uPassword = __uPassword;
         this.__isLoggedIn = __isLoggedIn;
 
@@ -42,9 +36,6 @@ public class AppSettings {
         editor.putString(Constant.APP_SETTINGS_KEY.APP_USER_RESTAURANT_ID.name(), __uRestaurantId);
         editor.putString(Constant.APP_SETTINGS_KEY.APP_USER_ID.name(), __uId);
         editor.putString(Constant.APP_SETTINGS_KEY.APP_USER_USERNAME.name(), __uUsername);
-        editor.putString(Constant.APP_SETTINGS_KEY.APP_USER_FIRST_NAME.name(), __uFirstName);
-        editor.putString(Constant.APP_SETTINGS_KEY.APP_USER_LAST_NAME.name(), __uLastName);
-        editor.putString(Constant.APP_SETTINGS_KEY.APP_USER_EMAIL.name(), __uEmail);
         editor.putString(Constant.APP_SETTINGS_KEY.APP_USER_PASSWORD.name(), __uPassword);
         editor.putBoolean(Constant.APP_SETTINGS_KEY.APP_USER_IS_LOGGED_IN.name(), __isLoggedIn);
         editor.commit();
@@ -73,15 +64,11 @@ public class AppSettings {
     public void revokeSession() {
         this.__uRestaurantId = "";
         this.__uId = "";
-        this.__uFirstName = "";
-        this.__uLastName = "";
         this.__isLoggedIn = false;
 
         Editor editor = sharedPreferences.edit();
         editor.putString(Constant.APP_SETTINGS_KEY.APP_USER_RESTAURANT_ID.name(), __uRestaurantId);
         editor.putString(Constant.APP_SETTINGS_KEY.APP_USER_ID.name(), __uId);
-        editor.putString(Constant.APP_SETTINGS_KEY.APP_USER_FIRST_NAME.name(), __uFirstName);
-        editor.putString(Constant.APP_SETTINGS_KEY.APP_USER_LAST_NAME.name(), __uLastName);
         editor.putBoolean(Constant.APP_SETTINGS_KEY.APP_USER_IS_LOGGED_IN.name(), __isLoggedIn);
         editor.commit();
         editor = null;
