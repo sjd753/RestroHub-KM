@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">RestroHub Admin</string>
+
+    <array name="order_tabs">
+        <item>@string/tab_pending</item>
+        <item>@string/tab_processing</item>
+        <item>@string/tab_completed</item>
+    </array>
+
+    <string name="tab_pending">Pending</string>
+    <string name="tab_processing">Processing</string>
+    <string name="tab_completed">Completed</string>
+
+    <array name="entries">
+        <item>Category One</item>
+        <item>Category Two</item>
+        <item>Category Three</item>
+        <item>Category Four</item>
+    </array>
+
+    <string name="title_activity_orders">Orders</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

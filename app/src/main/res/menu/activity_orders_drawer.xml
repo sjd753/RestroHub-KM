@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/nav_group_primary"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_categories"
+            android:icon="@drawable/ic_menu_restaurant"
+            android:title="Categories" />
+        <item
+            android:id="@+id/nav_tables"
+            android:icon="@drawable/ic_menu_event_seat"
+            android:title="Tables" />
+        <item
+            android:id="@+id/nav_users"
+            android:icon="@drawable/ic_menu_users"
+            android:title="Users" />
+    </group>
+
+    <item android:title="Create">
+        <menu>
+            <item
+                android:id="@+id/nav_create_category"
+                android:icon="@drawable/ic_menu_restaurant_category"
+                android:title="Create Category" />
+            <item
+                android:id="@+id/nav_create_table"
+                android:icon="@drawable/ic_menu_event_seat"
+                android:title="Create Table" />
+            <item
+                android:id="@+id/nav_create_user"
+                android:icon="@drawable/ic_menu_person_add"
+                android:title="Create User" />
+        </menu>
+    </item>
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_menu_power_settings_new"
+            android:title="Logout" />
+    </group>
+
+
+</menu>
