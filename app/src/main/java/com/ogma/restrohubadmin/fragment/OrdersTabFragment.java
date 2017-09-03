@@ -1,7 +1,6 @@
 package com.ogma.restrohubadmin.fragment;
 
 
-import android.app.Activity;
 import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.ogma.restrohubadmin.R;
-import com.ogma.restrohubadmin.activity.Home;
 import com.ogma.restrohubadmin.application.App;
 import com.ogma.restrohubadmin.application.AppSettings;
 import com.ogma.restrohubadmin.enums.URL;
@@ -47,6 +45,7 @@ public class OrdersTabFragment extends Fragment {
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private boolean isPending;
+    // private boolean isProcessing;
 
 
     public OrdersTabFragment() {
@@ -105,6 +104,7 @@ public class OrdersTabFragment extends Fragment {
     public void notifyDataSetChanged(JSONArray jArr, boolean isPending) {
         this.jArr = jArr;
         this.isPending = isPending;
+
         swipeRefreshLayout.setRefreshing(false);
         expandableListAdapter.notifyDataSetChanged();
         if (expandableListAdapter.getGroupCount() > 0) {
@@ -124,15 +124,6 @@ public class OrdersTabFragment extends Fragment {
     private class ExpandableListAdapter extends BaseExpandableListAdapter {
         private GroupViewHolder groupViewHolder;
         private ChildViewHolder childViewHolder;
-
-        class GroupViewHolder {
-            TextView tvTitle;
-            Button btnAction;
-        }
-
-        class ChildViewHolder {
-            TextView tvTitle, tvQuantity, tvOrderStatus, tvTotalPrice, tvPrice;
-        }
 
         @Override
         public void registerDataSetObserver(DataSetObserver dataSetObserver) {
@@ -199,9 +190,10 @@ public class OrdersTabFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         String orderId = String.valueOf(getGroupId(groupPosition));
+                        String orderStatus = jArr.optJSONObject(groupPosition).optString("order_status");
                         Log.e("onClick: ", orderId);
                         if (prepareExecuteAsync())
-                            new ChangeOrderItemStatusTask().execute(orderId);
+                            new ChangeOrderItemStatusTask().execute(orderId, orderStatus);
                     }
                 });
             } else {
@@ -304,6 +296,15 @@ public class OrdersTabFragment extends Fragment {
         public long getCombinedGroupId(long groupId) {
             return 0;
         }
+
+        class GroupViewHolder {
+            TextView tvTitle;
+            Button btnAction;
+        }
+
+        class ChildViewHolder {
+            TextView tvTitle, tvQuantity, tvOrderStatus, tvTotalPrice, tvPrice;
+        }
     }
 
     public class ChangeOrderItemStatusTask extends AsyncTask<String, Void, Boolean> {
@@ -317,6 +318,8 @@ public class OrdersTabFragment extends Fragment {
                 mJsonObject.put("user_id", app.getAppSettings().__uId);
                 mJsonObject.put("restaurant_id", app.getAppSettings().__uRestaurantId);
                 mJsonObject.put("order_id", params[0]);
+                mJsonObject.put("order_status", params[1]);
+
 
                 Log.e("Send Obj:", mJsonObject.toString());
 
