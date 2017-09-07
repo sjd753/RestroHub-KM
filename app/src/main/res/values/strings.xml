@@ -4,12 +4,12 @@
     <array name="order_tabs">
         <item>@string/tab_pending</item>
         <item>@string/tab_processing</item>
-        <item>@string/tab_completed</item>
+        <item>@string/tab_serving</item>
     </array>
 
     <string name="tab_pending">Pending</string>
     <string name="tab_processing">Processing</string>
-    <string name="tab_completed">Completed</string>
+    <string name="tab_serving">Serving</string>
 
     <array name="entries">
         <item>Category One</item>

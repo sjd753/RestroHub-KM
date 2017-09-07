@@ -12,14 +12,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ogma.restrohubadmin.R;
-import com.ogma.restrohubadmin.activity.Home;
 import com.ogma.restrohubadmin.application.App;
 import com.ogma.restrohubadmin.application.AppSettings;
 import com.ogma.restrohubadmin.enums.URL;
@@ -164,7 +162,7 @@ public class OrdersFragment extends Fragment {
                 if (status) {
                     jArr_new = response.getJSONArray("new_orders");
                     jArr_prep = response.getJSONArray("processing");
-                    jArr_comp = response.getJSONArray("completed");
+                    jArr_comp = response.getJSONArray("serving");
                 } else {
                     jArr_new = new JSONArray();
                     jArr_prep = new JSONArray();
@@ -201,7 +199,7 @@ public class OrdersFragment extends Fragment {
                         ((OrdersTabFragment) fragment).notifyDataSetChanged(jArr_new, true);
                     else if (pagerAdapter.getPageTitle(i).toString().equals(getString(R.string.tab_processing)))
                         ((OrdersTabFragment) fragment).notifyDataSetChanged(jArr_prep, false);
-                    else if (pagerAdapter.getPageTitle(i).toString().equals(getString(R.string.tab_completed)))
+                    else if (pagerAdapter.getPageTitle(i).toString().equals(getString(R.string.tab_serving)))
                         ((OrdersTabFragment) fragment).notifyDataSetChanged(jArr_comp, false);
                     else {
                         throw new IllegalArgumentException("Given viewpager title " + pagerAdapter.getPageTitle(i) + " does not match any of the predefined titles in the strings.xml file.");
