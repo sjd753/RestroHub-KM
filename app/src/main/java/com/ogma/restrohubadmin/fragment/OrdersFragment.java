@@ -41,7 +41,7 @@ public class OrdersFragment extends Fragment {
     private ViewPager pager;
     private JSONArray jArr_new = new JSONArray();
     private JSONArray jArr_prep = new JSONArray();
-    private JSONArray jArr_comp = new JSONArray();
+    private JSONArray jArr_serve = new JSONArray();
 
     public OrdersFragment() {
         // Required empty public constructor
@@ -162,11 +162,11 @@ public class OrdersFragment extends Fragment {
                 if (status) {
                     jArr_new = response.getJSONArray("new_orders");
                     jArr_prep = response.getJSONArray("processing");
-                    jArr_comp = response.getJSONArray("serving");
+                    jArr_serve = response.getJSONArray("serving");
                 } else {
                     jArr_new = new JSONArray();
                     jArr_prep = new JSONArray();
-                    jArr_comp = new JSONArray();
+                    jArr_serve = new JSONArray();
                 }
                 return status;
             } catch (JSONException | NullPointerException e) {
@@ -196,11 +196,11 @@ public class OrdersFragment extends Fragment {
                 Fragment fragment = (Fragment) pagerAdapter.instantiateItem(pager, i);
                 if (fragment instanceof OrdersTabFragment) {
                     if (pagerAdapter.getPageTitle(i).toString().equals(getString(R.string.tab_pending)))
-                        ((OrdersTabFragment) fragment).notifyDataSetChanged(jArr_new, true);
+                        ((OrdersTabFragment) fragment).notifyDataSetChanged(jArr_new);
                     else if (pagerAdapter.getPageTitle(i).toString().equals(getString(R.string.tab_processing)))
-                        ((OrdersTabFragment) fragment).notifyDataSetChanged(jArr_prep, false);
+                        ((OrdersTabFragment) fragment).notifyDataSetChanged(jArr_prep);
                     else if (pagerAdapter.getPageTitle(i).toString().equals(getString(R.string.tab_serving)))
-                        ((OrdersTabFragment) fragment).notifyDataSetChanged(jArr_comp, false);
+                        ((OrdersTabFragment) fragment).notifyDataSetChanged(jArr_serve);
                     else {
                         throw new IllegalArgumentException("Given viewpager title " + pagerAdapter.getPageTitle(i) + " does not match any of the predefined titles in the strings.xml file.");
                     }

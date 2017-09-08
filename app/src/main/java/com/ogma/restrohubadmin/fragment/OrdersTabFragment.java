@@ -44,8 +44,7 @@ public class OrdersTabFragment extends Fragment {
     private JSONArray jArr = new JSONArray();
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
-    private boolean isPending;
-    // private boolean isProcessing;
+//    private boolean isPending;
 
 
     public OrdersTabFragment() {
@@ -101,9 +100,8 @@ public class OrdersTabFragment extends Fragment {
         return false;
     }
 
-    public void notifyDataSetChanged(JSONArray jArr, boolean isPending) {
+    public void notifyDataSetChanged(JSONArray jArr) {
         this.jArr = jArr;
-        this.isPending = isPending;
 
         swipeRefreshLayout.setRefreshing(false);
         expandableListAdapter.notifyDataSetChanged();
@@ -114,6 +112,7 @@ public class OrdersTabFragment extends Fragment {
             expandableListView.setBackgroundColor(Color.TRANSPARENT);
         }
     }
+
 
     private void expandAll() {
         for (int i = 0; i < expandableListAdapter.getGroupCount(); i++) {
@@ -184,8 +183,24 @@ public class OrdersTabFragment extends Fragment {
             }
 
             groupViewHolder.tvTitle.setText(jArr.optJSONObject(groupPosition).optString("table_name"));
-            if (isPending) {
+
+            Log.e("orderstatus ", jArr.optJSONObject(groupPosition).optString("order_status"));
+            if (jArr.optJSONObject(groupPosition).optString("order_status").equals("pending")) {
                 groupViewHolder.btnAction.setVisibility(View.VISIBLE);
+                groupViewHolder.btnAction.setText("PROCESS");
+                groupViewHolder.btnAction.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String orderId = String.valueOf(getGroupId(groupPosition));
+                        String orderStatus = jArr.optJSONObject(groupPosition).optString("order_status");
+                        Log.e("onClick: ", orderId);
+                        if (prepareExecuteAsync())
+                            new ChangeOrderItemStatusTask().execute(orderId, orderStatus);
+                    }
+                });
+            } else if (jArr.optJSONObject(groupPosition).optString("order_status").equals("processing")) {
+                groupViewHolder.btnAction.setVisibility(View.VISIBLE);
+                groupViewHolder.btnAction.setText("SERVE");
                 groupViewHolder.btnAction.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
