@@ -1,6 +1,9 @@
 package com.ogma.restrohubadmin.fragment;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -16,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -120,6 +124,33 @@ public class OrdersTabFragment extends Fragment {
         }
     }
 
+    public Dialog pickPreparationTime(final String orderId, final String orderStatus) {
+        final NumberPicker numberPicker = new NumberPicker(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(numberPicker);
+        numberPicker.setMaxValue(60);
+        numberPicker.setMinValue(5);
+
+        builder.setTitle("Preparation time");
+        builder.setMessage("Choose the time in minutes");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                if (prepareExecuteAsync())
+                    new ChangeOrderItemStatusTask().execute(orderId, orderStatus, String.valueOf(numberPicker.getValue()));
+            }
+        });
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create();
+        return builder.show();
+    }
+
     private class ExpandableListAdapter extends BaseExpandableListAdapter {
         private GroupViewHolder groupViewHolder;
         private ChildViewHolder childViewHolder;
@@ -184,7 +215,6 @@ public class OrdersTabFragment extends Fragment {
 
             groupViewHolder.tvTitle.setText(jArr.optJSONObject(groupPosition).optString("table_name"));
 
-            Log.e("orderstatus ", jArr.optJSONObject(groupPosition).optString("order_status"));
             if (jArr.optJSONObject(groupPosition).optString("order_status").equals("pending")) {
                 groupViewHolder.btnAction.setVisibility(View.VISIBLE);
                 groupViewHolder.btnAction.setText("PROCESS");
@@ -193,9 +223,7 @@ public class OrdersTabFragment extends Fragment {
                     public void onClick(View view) {
                         String orderId = String.valueOf(getGroupId(groupPosition));
                         String orderStatus = jArr.optJSONObject(groupPosition).optString("order_status");
-                        Log.e("onClick: ", orderId);
-                        if (prepareExecuteAsync())
-                            new ChangeOrderItemStatusTask().execute(orderId, orderStatus);
+                        pickPreparationTime(orderId, orderStatus);
                     }
                 });
             } else if (jArr.optJSONObject(groupPosition).optString("order_status").equals("processing")) {
@@ -206,7 +234,6 @@ public class OrdersTabFragment extends Fragment {
                     public void onClick(View view) {
                         String orderId = String.valueOf(getGroupId(groupPosition));
                         String orderStatus = jArr.optJSONObject(groupPosition).optString("order_status");
-                        Log.e("onClick: ", orderId);
                         if (prepareExecuteAsync())
                             new ChangeOrderItemStatusTask().execute(orderId, orderStatus);
                     }
@@ -322,7 +349,7 @@ public class OrdersTabFragment extends Fragment {
         }
     }
 
-    public class ChangeOrderItemStatusTask extends AsyncTask<String, Void, Boolean> {
+    private class ChangeOrderItemStatusTask extends AsyncTask<String, Void, Boolean> {
         private String error_msg = "Server error!";
         private JSONObject response;
 
@@ -334,6 +361,8 @@ public class OrdersTabFragment extends Fragment {
                 mJsonObject.put("restaurant_id", app.getAppSettings().__uRestaurantId);
                 mJsonObject.put("order_id", params[0]);
                 mJsonObject.put("order_status", params[1]);
+                if (params[1].equals("pending"))
+                    mJsonObject.put("preparation_time", params[2]);
 
 
                 Log.e("Send Obj:", mJsonObject.toString());
