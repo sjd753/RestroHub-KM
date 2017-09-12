@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.ogma.restrohubadmin.R;
 import com.ogma.restrohubadmin.application.App;
 import com.ogma.restrohubadmin.application.AppSettings;
@@ -113,7 +114,7 @@ public class Login extends AppCompatActivity {
                 mJsonObject.put("username", params[0]);
                 mJsonObject.put("password", params[1]);
                 mJsonObject.put("user_type", "KM");
-                mJsonObject.put("device_id", "token2");
+                mJsonObject.put("device_id", FirebaseInstanceId.getInstance().getToken() != null ? FirebaseInstanceId.getInstance().getToken() : "");
 
                 __uPassword = params[1];
 
