@@ -1,6 +1,5 @@
 package com.ogma.restrohubadmin.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -173,8 +172,8 @@ public class Menus extends AppCompatActivity {
             try {
                 holder.tvName.setText(jArr.getJSONObject(position).getString("name"));
                 holder.tvDetail.setText(jArr.getJSONObject(position).getString("description"));
-                holder.tvPrice.setText("$" + jArr.getJSONObject(position).getString("price"));
-                holder.tvOfferPrice.setText("$" + jArr.getJSONObject(position).getString("offer_price"));
+                holder.tvPrice.setText("Rs" + jArr.getJSONObject(position).getString("price"));
+                holder.tvOfferPrice.setText("Rs" + jArr.getJSONObject(position).getString("offer_price"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

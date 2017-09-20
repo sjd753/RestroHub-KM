@@ -281,8 +281,8 @@ public class OrdersTabFragment extends Fragment {
 //            }
             float offerPrice = Float.parseFloat(jArr.optJSONObject(groupPosition)
                     .optJSONArray("order_list").optJSONObject(childPosition).optString("offer_price"));
-            childViewHolder.tvPrice.setText("$" + offerPrice);
-            childViewHolder.tvTotalPrice.setText("$" + offerPrice * quantity);
+            childViewHolder.tvPrice.setText("Rs" + offerPrice);
+            childViewHolder.tvTotalPrice.setText("Rs" + offerPrice * quantity);
 
 //                try {
 //                    childViewHolder.tvTitle.setText(jsonArray.getJSONObject(groupPosition).getJSONArray("menu")
